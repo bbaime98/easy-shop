@@ -1,16 +1,17 @@
 import React from "react"
-import {ImageBackground, StyleSheet, View, Image, Text} from "react-native"
+import { ImageBackground, StyleSheet, View, Image, Text } from "react-native"
 import AppButton from "../components/AppButton"
+import colors from "../config/colors"
 
 const WelcomeScreen = () => {
   return (
     <ImageBackground
       style={styles.background}
-      source={require("../assets/shop1.jpg")}
-      blurRadius={10}
+      source={require("../assets/shop.jpg")}
+      blurRadius={1}
     >
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} />
+        <Image style={styles.logo} source={require('../assets/shop1.jpg')} />
         <Text style={styles.tagline}>Buy and sell online easily!</Text>
       </View>
       <View style={styles.buttonsContainer}>
@@ -26,6 +27,8 @@ export default WelcomeScreen
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+    justifyContent: "flex-end",
+    alignItems: 'center'
   },
   buttonsContainer: {
     padding: 20,
@@ -44,5 +47,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "600",
     paddingVertical: 20,
+    color: colors.white
   },
 })
