@@ -1,12 +1,12 @@
 import React from "react"
-import { View } from "react-native"
-import { MaterialCommunityIcons } from "@expo/vector-icons"
+import {View} from "react-native"
+import {MaterialCommunityIcons} from "@expo/vector-icons"
 import colors from "../config/colors"
 
 const Icon = ({
   name,
   size = 40,
-  backgroundcolor = colors.secondary,
+  backgroundColor = "#000",
   iconColor = "#fff",
 }) => {
   return (
@@ -15,7 +15,7 @@ const Icon = ({
         width: size,
         height: size,
         borderRadius: size / 2,
-        backgroundColor: backgroundcolor,
+        backgroundColor,
         justifyContent: "center",
         alignItems: "center",
       }}
@@ -25,4 +25,4 @@ const Icon = ({
   )
 }
 
-export default Icon;
+export default Icon
