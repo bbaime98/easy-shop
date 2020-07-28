@@ -16,15 +16,18 @@ import defaultStyles from "../config/styles"
 export default function AppPicker({
   icon,
   items,
-  selectedItem,
+  numberOfColumns = 1,
   onSelectItem,
+  PickerItemComponent = PickerItem,
   placeholder,
+  selectedItem,
+  width = "100%",
 }) {
   const [modalVisible, setModalVisible] = useState(false)
   return (
     <>
       <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
-        <View style={styles.container}>
+        <View style={[styles.container, {width}]}>
           {icon && (
             <MaterialCommunityIcons
               name={icon}
@@ -38,9 +41,6 @@ export default function AppPicker({
           ) : (
             <AppText style={styles.placeholder}>{placeholder}</AppText>
           )}
-          {/* <AppText style={styles.text}>
-            {selectedItem ? selectedItem.label : placeholder}
-          </AppText> */}
           <MaterialCommunityIcons
             name="chevron-down"
             size={20}
@@ -54,8 +54,10 @@ export default function AppPicker({
           <FlatList
             data={items}
             keyExtractor={(item) => item.value.toString()}
+            numColumns={numberOfColumns}
             renderItem={({item}) => (
-              <PickerItem
+              <PickerItemComponent
+                item={item}
                 label={item.label}
                 onPress={() => {
                   setModalVisible(false)
@@ -75,7 +77,6 @@ const styles = StyleSheet.create({
     backgroundColor: defaultStyles.colors.light,
     borderRadius: 25,
     flexDirection: "row",
-    width: "100%",
     padding: 15,
     marginVertical: 10,
   },

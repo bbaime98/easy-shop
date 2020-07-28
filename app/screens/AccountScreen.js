@@ -1,5 +1,5 @@
 import React from "react"
-import { StyleSheet, View, FlatList } from "react-native"
+import {StyleSheet, View, FlatList} from "react-native"
 import Screen from "../components/Screen"
 import ListItem from "../components/ListItem"
 import ListItemSeparator from "../components/ListItemSeparator"
@@ -18,7 +18,7 @@ const menuItems = [
     title: "My Messages",
     icon: {
       name: "email",
-      backgroundColor: "#fff",
+      backgroundColor: colors.secondary,
     },
   },
 ]
@@ -37,24 +37,26 @@ export default function AccountScreen() {
           data={menuItems}
           keyExtractor={(menuItem) => menuItem.title}
           ItemSeparatorComponent={ListItemSeparator}
-          renderItem={({ item }) =>
-            // (
-            <ListItem
-              title={item.title}
-              IconComponent={
-                <Icon
-                  name={item.icon.name}
-                  backgroundColor={item.icon.backgroundColor}
-                />
-              }
-            />
+          renderItem={
+            ({item}) => (
+              // (
+              <ListItem
+                title={item.title}
+                IconComponent={
+                  <Icon
+                    name={item.icon.name}
+                    backgroundColor={item.icon.backgroundColor}
+                  />
+                }
+              />
+            )
             // )
           }
         />
       </View>
       <ListItem
         title="Log Out"
-        IconComponent={<Icon name="logout" backgroundcolor="#ffe66d" />}
+        IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
       />
     </Screen>
   )
