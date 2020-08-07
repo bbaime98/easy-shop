@@ -1,9 +1,10 @@
 import React from "react"
-import { ImageBackground, StyleSheet, View, Image, Text } from "react-native"
+import {ImageBackground, StyleSheet, View, Image, Text} from "react-native"
 import AppButton from "../components/AppButton"
 import colors from "../config/colors"
+import routes from "../navigation/routes"
 
-const WelcomeScreen = () => {
+const WelcomeScreen = ({navigation}) => {
   return (
     <ImageBackground
       style={styles.background}
@@ -11,12 +12,19 @@ const WelcomeScreen = () => {
       blurRadius={1}
     >
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={require('../assets/shop1.jpg')} />
+        <Image style={styles.logo} source={require("../assets/shop1.jpg")} />
         <Text style={styles.tagline}>Buy and sell online easily!</Text>
       </View>
       <View style={styles.buttonsContainer}>
-        <AppButton title="login" />
-        <AppButton title="signup" color="secondary" />
+        <AppButton
+          title="login"
+          onPress={() => navigation.navigate(routes.LOGIN)}
+        />
+        <AppButton
+          title="signup"
+          color="secondary"
+          onPress={() => navigation.navigate(routes.REGISTER)}
+        />
       </View>
     </ImageBackground>
   )
@@ -28,7 +36,7 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     justifyContent: "flex-end",
-    alignItems: 'center'
+    alignItems: "center",
   },
   buttonsContainer: {
     padding: 20,
@@ -47,6 +55,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "600",
     paddingVertical: 20,
-    color: colors.white
+    color: colors.white,
   },
 })

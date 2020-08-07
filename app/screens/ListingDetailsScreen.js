@@ -1,21 +1,22 @@
 import React from "react"
-import { StyleSheet, View, Image } from "react-native"
+import {StyleSheet, View, Image} from "react-native"
 import AppText from "../components/AppText"
 import colors from "../config/colors"
 import ListItem from "../components/ListItem"
 
-const ListingDetailsScreen = () => {
+const ListingDetailsScreen = ({route}) => {
+  const listing = route.params
   return (
     <View>
-      <Image style={styles.image} source={require('../assets/shop1.jpg')} />
+      <Image style={styles.image} source={listing.image} />
       <View style={styles.detailsContainer}>
-        <AppText style={styles.title}>Red Car with a radio</AppText>
-        <AppText style={styles.price}>100$</AppText>
+        <AppText style={styles.title}>{listing.title}</AppText>
+        <AppText style={styles.price}>{listing.price}</AppText>
         <View style={styles.userContainer}>
           <ListItem
             title="Bien Aime"
             subTitle="10 Listings"
-            image={require('../assets/shop.jpg')}
+            image={require("../assets/shop.jpg")}
           />
         </View>
       </View>
@@ -46,4 +47,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ListingDetailsScreen;
+export default ListingDetailsScreen
