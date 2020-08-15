@@ -9,10 +9,11 @@ export default useApi = (apiFunction) => {
     setLoading(true)
     const res = await apiFunction(...args)
     setLoading(false)
-    if (!res.ok) return setError(true)
 
-    setError(false)
+    setError(!res.ok)
     setData(res.data)
+
+    return res
   }
   return {
     data,
