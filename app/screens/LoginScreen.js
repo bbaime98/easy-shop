@@ -28,7 +28,7 @@ export default function LoginScreen() {
   }
   return (
     <Screen style={styles.container}>
-      <Image source={require("../assets/logo1.png")} style={styles.logo} />
+      <Image source={require("../assets/logo-red.png")} style={styles.logo} />
       <AppForm
         initialValues={{email: "", password: ""}}
         onSubmit={handleSubmit}

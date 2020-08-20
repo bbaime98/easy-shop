@@ -8,11 +8,11 @@ const WelcomeScreen = ({navigation}) => {
   return (
     <ImageBackground
       style={styles.background}
-      source={require("../assets/shop.jpg")}
+      source={require("../assets/background.jpg")}
       blurRadius={1}
     >
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={require("../assets/shop1.jpg")} />
+        <Image style={styles.logo} source={require("../assets/logo-red.png")} />
         <Text style={styles.tagline}>Buy and sell online easily!</Text>
       </View>
       <View style={styles.buttonsContainer}>
@@ -55,6 +55,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "600",
     paddingVertical: 20,
-    color: colors.white,
+    color: colors.medium,
   },
 })
