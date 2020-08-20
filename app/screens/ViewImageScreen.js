@@ -1,6 +1,6 @@
 import React from "react"
-import { StyleSheet, Image, View } from "react-native"
-import { MaterialCommunityIcons } from "@expo/vector-icons"
+import {StyleSheet, Image, View} from "react-native"
+import {MaterialCommunityIcons} from "@expo/vector-icons"
 import colors from "../config/colors"
 
 export default function ViewImageScreen() {
@@ -19,7 +19,7 @@ export default function ViewImageScreen() {
       <Image
         resizeMode="contain"
         style={styles.image}
-        source={require("../assets/shop1.jpg")}
+        source={require("../assets/chair.jpg")}
       />
     </View>
   )
@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    width: '100%',
-    height: '100%'
+    width: "100%",
+    height: "100%",
   },
   closeIcon: {
     position: "absolute",
