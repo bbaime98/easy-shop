@@ -1,14 +1,36 @@
 import React, {Component} from "react"
-import {View, StyleSheet, Text, TouchableOpacity, FlatList} from "react-native"
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  Modal,
+} from "react-native"
 import colors from "./colors"
 import {AntDesign} from "@expo/vector-icons"
 import tempData from "./tempData"
 import TodoList from "./components/TodoList"
+import AddListModal from "./components/AddListModal"
 
 class App extends Component {
+  state = {
+    addTodoVisible: false,
+  }
+  toggleAddTodoModal() {
+    this.setState({addTodoVisible: !this.state.addTodoVisible})
+  }
   render() {
+    const {addTodoVisible} = this.state
     return (
       <View style={styles.container}>
+        <Modal
+          animationType="slide"
+          visible={addTodoVisible}
+          onRequestClose={() => this.toggleAddTodoModal()}
+        >
+          <AddListModal closeModal={() => this.toggleAddTodoModal()} />
+        </Modal>
         <View style={{flexDirection: "row"}}>
           <View style={styles.divider} />
 
@@ -20,7 +42,10 @@ class App extends Component {
         </View>
 
         <View style={{marginVertical: 48}}>
-          <TouchableOpacity style={styles.addListIcon}>
+          <TouchableOpacity
+            style={styles.addListIcon}
+            onPress={() => this.toggleAddTodoModal()}
+          >
             <AntDesign name="plus" size={16} color={colors.blue} />
           </TouchableOpacity>
 
