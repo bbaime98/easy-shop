@@ -14,11 +14,21 @@ export default function ImageInput({imageUri, onChangeImage}) {
   useEffect(() => {
     requestPermission()
   }, [])
+
+  //for being able to pick images only
   const requestPermission = async () => {
     const {granted} = await ImagePicker.requestCameraRollPermissionsAsync()
     if (!granted) alert("You need to enable permission to access the library")
   }
-
+  // for picking both image and video
+  // const requestPermision = async () => {
+  //   if (Constants.platform.ios) {
+  //     const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+  //     if (status !== "granted") {
+  //       alert("Sorry, we need camera roll permissions to make this work!")
+  //     }
+  //   }
+  // }
   const handlePress = () => {
     if (!imageUri) selectImage()
     else
@@ -30,7 +40,7 @@ export default function ImageInput({imageUri, onChangeImage}) {
   const selectImage = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes: ImagePicker.MediaTypeOptions.Videos,
         quality: 0.5,
       })
       if (!result.cancelled) onChangeImage(result.uri)
