@@ -4,6 +4,7 @@ import AppButton from "../AppButton"
 import {useFormikContext} from "formik"
 
 export default function SubmitButton({title}) {
+  console.log("Submit BUTOON___")
   const {handleSubmit} = useFormikContext()
   return <AppButton title={title} onPress={handleSubmit} />
 }

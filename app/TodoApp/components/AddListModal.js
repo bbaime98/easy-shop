@@ -7,9 +7,10 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native"
-import {AntDesign} from "@expo/vector-icons"
 import colors from "../colors"
 import tempData from "../tempData"
+import Screen from "./Screen"
+import CloseButton from "./CloseButton"
 
 class AddListModal extends Component {
   backgroundColor = [
@@ -51,10 +52,11 @@ class AddListModal extends Component {
     const {color} = this.state
     const {closeModal} = this.props
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <TouchableOpacity style={styles.iconContainer} onPress={closeModal}>
-          <AntDesign name="close" size={24} color={colors.black} />
-        </TouchableOpacity>
+      // <KeyboardAvoidingView style={styles.container} behavior="padding"> //pushes the form upward
+      <Screen>
+        {/* <TouchableOpacity style={styles.iconContainer} onPress={closeModal}> */}
+        {/* <AntDesign name="close" size={24} color={colors.white} /> */}
+        <CloseButton onPress={closeModal} />
 
         <View style={styles.titleConatiner}>
           <Text style={styles.title}>Create to shop list</Text>
@@ -74,7 +76,7 @@ class AddListModal extends Component {
             </Text>
           </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
+      </Screen>
     )
   }
 }
@@ -86,9 +88,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   iconContainer: {
-    position: "absolute",
-    top: 64,
-    right: 32,
+    // position: "absolute",
+    // // top: ,
+    // right: 15,
+    // backgroundColor: "red",
+    // borderRadius: 5,
   },
   titleConatiner: {
     alignSelf: "stretch",
