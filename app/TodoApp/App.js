@@ -20,6 +20,10 @@ class App extends Component {
   toggleAddTodoModal() {
     this.setState({addTodoVisible: !this.state.addTodoVisible})
   }
+
+  renderList = (list) => {
+    return <TodoList list={list} />
+  }
   render() {
     const {addTodoVisible} = this.state
     return (
@@ -58,7 +62,7 @@ class App extends Component {
             keyExtractor={(item) => item.name}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            renderItem={({item}) => <TodoList list={item} />}
+            renderItem={({item}) => this.renderList(item)}
           />
         </View>
       </View>

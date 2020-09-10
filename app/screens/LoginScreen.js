@@ -1,5 +1,5 @@
-import React, {useState} from "react"
-import {StyleSheet, Image} from "react-native"
+import React, {useState, useEffect, Component} from "react"
+import {StyleSheet, Image, View, Text} from "react-native"
 import Screen from "../components/Screen"
 import {
   AppForm,
@@ -11,32 +11,45 @@ import * as Yup from "yup"
 import authApi from "../api/auth"
 import useAuth from "../auth/useAuth"
 
+// export default class Login extends Component {
+//   render() {
+//     console.log("RECH_______")
+//     return (
+//       <View>
+//         <Text>LOGIN</Text>
+//       </View>
+//     )
+//   }
+// }
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required().min(5).label("Password"),
 })
-export default function LoginScreen() {
-  const auth = useAuth()
-  const [loginFailed, setLoginFailed] = useState(false)
+const LoginScreen = () => {
+  useEffect(() => {
+    console.log("RECH_______")
+  })
+  // const auth = useAuth()
+  // const [loginFailed, setLoginFailed] = useState(false)
 
-  const handleSubmit = async ({email, password}) => {
-    const result = await authApi.login(email, password)
+  // const handleSubmit = async ({email, password}) => {
+  //   const result = await authApi.login(email, password)
 
-    if (!result.ok) return setLoginFailed(true)
-    setLoginFailed(false)
-    auth.login(result.data)
-  }
+  //   if (!result.ok) return setLoginFailed(true)
+  //   setLoginFailed(false)
+  //   auth.login(result.data)
+  // }
   return (
     <Screen style={styles.container}>
       <Image source={require("../assets/logo-red.png")} style={styles.logo} />
       <AppForm
         initialValues={{email: "", password: ""}}
-        onSubmit={handleSubmit}
+        // onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <ErrorMessage
           error="Invalid email and/or password."
-          visible={loginFailed}
+          // visible={loginFailed}
         />
         <AppFormField
           autoCapitalize="none"
@@ -76,3 +89,5 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 })
+
+export default LoginScreen
