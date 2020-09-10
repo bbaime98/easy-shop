@@ -8,6 +8,7 @@ import {
   FlatList,
   KeyboardAvoidingView,
   TextInput,
+  Keyboard,
 } from "react-native"
 import {AntDesign, Ionicons} from "@expo/vector-icons"
 import colors from "../colors"
@@ -16,14 +17,20 @@ import Screen from "./Screen"
 
 class TodoModal extends Component {
   state = {
-    name: this.props.list.name,
-    color: this.props.list.color,
-    todos: this.props.list.todos,
+    // name: this.props.list.name,
+    // color: this.props.list.color,
+    // todos: this.props.list.todos,
+    newTodo: "",
   }
-  renderTodo = (todo) => {
+  toggleTodoComplete = (index) => {
+    let list = this.props.list
+    list.todos[index].completed = !list.todos[index].completed
+    this.props.updateList(list)
+  }
+  renderTodo = (todo, index) => {
     return (
       <View style={styles.todoContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => this.toggleTodoComplete(index)}>
           <Ionicons
             name={todo.completed ? "ios-square" : "ios-square-outline"}
             size={24}
@@ -45,10 +52,20 @@ class TodoModal extends Component {
       </View>
     )
   }
+  addTodo = () => {
+    let list = this.props.list
+    list.todos.push({title: this.state.newTodo, completed: false})
+
+    this.props.updateList(list)
+    this.setState({newTodo: ""})
+
+    Keyboard.dismiss()
+  }
+
   render() {
-    const taskCount = this.state.todos.length
-    const completedCount = this.state.todos.filter((todo) => todo.completed)
-      .length
+    const list = this.props.list
+    const taskCount = list.todos.length
+    const completedCount = list.todos.filter((todo) => todo.completed).length
     return (
       // <SafeAreaView style={styles.container}>
       <Screen>
@@ -59,11 +76,11 @@ class TodoModal extends Component {
           style={[
             styles.section,
             styles.header,
-            {borderBottomColor: this.state.color},
+            {borderBottomColor: list.color},
           ]}
         >
           <View>
-            <Text style={styles.title}>{this.state.name}</Text>
+            <Text style={styles.title}>{list.name}</Text>
             <Text style={styles.taskCount}>
               {completedCount} of {taskCount} tasks
             </Text>
@@ -72,8 +89,8 @@ class TodoModal extends Component {
 
         <View style={[styles.section, {flex: 3}]}>
           <FlatList
-            data={this.state.todos}
-            renderItem={({item}) => this.renderTodo(item)}
+            data={list.todos}
+            renderItem={({item, index}) => this.renderTodo(item, index)}
             keyExtractor={(item) => item.title}
             contentContainerStyle={{paddingHorizontal: 32, paddingVertical: 64}}
             showsVerticalScrollIndicator={false}
@@ -81,9 +98,14 @@ class TodoModal extends Component {
         </View>
 
         <View style={[styles.section, styles.footer]}>
-          <TextInput style={[styles.input, {borderColor: this.state.color}]} />
+          <TextInput
+            style={[styles.input, {borderColor: list.color}]}
+            onChangeText={(text) => this.setState({newTodo: text})}
+            value={this.state.newTodo}
+          />
           <TouchableOpacity
-            style={[styles.addTodo, {backgroundColor: this.state.color}]}
+            style={[styles.addTodo, {backgroundColor: list.color}]}
+            onPress={() => this.addTodo()}
           >
             <AntDesign name="plus" size={16} color={colors.white} />
           </TouchableOpacity>
