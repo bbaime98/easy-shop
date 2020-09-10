@@ -28,12 +28,15 @@ class AddListModal extends Component {
   }
   createTodo = () => {
     const {name, color} = this.state
+    const list = {name, color}
 
-    tempData.push({
-      name,
-      color,
-      todos: [],
-    })
+    this.props.addList(list)
+
+    // tempData.push({
+    //   name,
+    //   color,
+    //   todos: [],
+    // })
     this.setState({name: ""})
     this.props.closeModal()
   }
