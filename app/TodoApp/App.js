@@ -1,4 +1,4 @@
-import React, {Component} from "react"
+import React, { Component } from "react"
 import {
   View,
   StyleSheet,
@@ -8,18 +8,38 @@ import {
   Modal,
 } from "react-native"
 import colors from "./colors"
-import {AntDesign} from "@expo/vector-icons"
+import { AntDesign } from "@expo/vector-icons"
 import tempData from "./tempData"
 import TodoList from "./components/TodoList"
 import AddListModal from "./components/AddListModal"
+import FirebaseConnect from "./firebase"
 
 class App extends Component {
   state = {
     addTodoVisible: false,
-    lists: tempData,
+    lists: [],
+    user: {},
+    loading: true,
   }
+
+  componentDidMount() {
+    firebase = new FirebaseConnect((error, user) => {
+      if (error) {
+        return alert("Something went wrong")
+      }
+
+      firebase.getLists((lists) => {
+        console.log("LLLLLLIST", lists)
+        this.setState({ lists, user }, () => {
+          this.setState({ loading: false })
+        })
+      })
+      this.setState({ user })
+    })
+  }
+
   toggleAddTodoModal() {
-    this.setState({addTodoVisible: !this.state.addTodoVisible})
+    this.setState({ addTodoVisible: !this.state.addTodoVisible })
   }
 
   renderList = (list) => {
@@ -30,7 +50,7 @@ class App extends Component {
     this.setState({
       lists: [
         ...this.state.lists,
-        {...list, id: this.state.lists.length + 1, todos: []},
+        { ...list, id: this.state.lists.length + 1, todos: [] },
       ],
     })
   }
@@ -44,7 +64,7 @@ class App extends Component {
   }
 
   render() {
-    const {addTodoVisible} = this.state
+    const { addTodoVisible } = this.state
     return (
       <View style={styles.container}>
         <Modal
@@ -57,17 +77,20 @@ class App extends Component {
             addList={this.addList}
           />
         </Modal>
-        <View style={{flexDirection: "row"}}>
+        <View>
+          <Text>User: {this.state.user.uid}</Text>
+        </View>
+        <View style={{ flexDirection: "row" }}>
           <View style={styles.divider} />
 
           <Text style={styles.title}>
             Todo
-            <Text style={{fontWeight: "300", color: colors.blue}}>Lists</Text>
+            <Text style={{ fontWeight: "300", color: colors.blue }}>Lists</Text>
           </Text>
           <View style={styles.divider} />
         </View>
 
-        <View style={{marginVertical: 48}}>
+        <View style={{ marginVertical: 48 }}>
           <TouchableOpacity
             style={styles.addListIcon}
             onPress={() => this.toggleAddTodoModal()}
@@ -84,7 +107,7 @@ class App extends Component {
             keyExtractor={(item) => item.name}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            renderItem={({item}) => this.renderList(item)}
+            renderItem={({ item }) => this.renderList(item)}
             keyboardShouldPersistTaps="always"
           />
         </View>

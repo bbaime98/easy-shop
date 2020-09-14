@@ -1,66 +1,141 @@
-import React, {useState} from "react"
-import {NavigationContainer} from "@react-navigation/native"
-import AuthNavigator from "./app/navigation/AuthNavigator"
-import navigationTheme from "./app/navigation/navigationTheme"
-import OfflineNotice from "./app/components/OfflineNotice"
-import AuthContext from "./app/auth/context"
-import AppNavigator from "./app/navigation/AppNavigator"
-import authStoarge from "./app/auth/storage"
-import {AppLoading} from "expo"
-import TodoApp from "./app/TodoApp/App"
+import React, { Component } from 'react'
+import { View, StyleSheet, Text } from 'react-native'
+import * as firebase from 'firebase'
+import * as Facebook from 'expo-facebook';
 
-export default function App() {
-  //   const [user, setUser] = useState()
-  //   const [isReady, setisReady] = useState(false)
-
-  //   const restoreUser = async () => {
-  //     const user = await authStoarge.getUser()
-  //     if (user) setUser(user)
-  //   }
-  //   if (!isReady)
-  //     return (
-  //       <AppLoading startAsync={restoreUser} onFinish={() => setisReady(true)} />
-  //     )
-
-  return (
-    // <AuthContext.Provider value={{user, setUser}}>
-    //   <OfflineNotice />
-    //   <NavigationContainer theme={navigationTheme}>
-    //     {user ? <AppNavigator /> : <AuthNavigator />}
-    //   </NavigationContainer>
-    // </AuthContext.Provider>
-    <TodoApp />
-  )
+import { Container, Content, Header, Form, Input, Item, Button, Label, } from 'native-base'
+const firebaseConfig = {
+  apiKey: "AIzaSyABg7IEzJbh_EgwkWaARKL_cvQKFJ_o1gE",
+  authDomain: "easy-shop-42753.firebaseapp.com",
+  databaseURL: "https://easy-shop-42753.firebaseio.com",
+  projectId: "easy-shop-42753",
+  storageBucket: "easy-shop-42753.appspot.com",
+  messagingSenderId: "893648098228",
+  appId: "1:893648098228:web:c3bcac3c8053b75c8518e1",
 }
 
-// import React from "react"
-// import {Text} from "react-native"
-// import Screen from "./app/components/Screen"
-// import {createStackNavigator} from "@react-navigation/stack"
-// import {NavigationContainer} from "@react-navigation/native"
-// import Login from "./app/screens/LoginScreen"
+firebase.initializeApp(firebaseConfig)
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = ({
+      email: '',
+      password: ''
+    })
+  }
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user != null) {
+        console.log("USER CRED____", user)
+      }
+    })
+  }
+  signupUser = (email, password) => {
+    try {
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-// const Tweets = () => (
-//   <Screen>
-//     <Text>Tweet screen</Text>
-//   </Screen>
-// )
-// const TweetsDetails = () => (
-//   <Screen>
-//     <Text>Details screen</Text>
-//   </Screen>
-// )
-// const Stack = createStackNavigator()
-// const StackNavig = () => (
-//   <Stack.Navigator>
-//     <Stack.Screen name="Tweets" component={Login} />
-//     <Stack.Screen name="Details" component={TweetsDetails} />
-//   </Stack.Navigator>
-// )
-// export default function App() {
-//   return (
-//     <NavigationContainer>
-//       <StackNavig />
-//     </NavigationContainer>
-//   )
-// }
+  loginUser = async (email, password) => {
+    try {
+      const user = await firebase.auth().signInWithEmailAndPassword(email, password)
+      // console.log('USER____', user)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  loginWithFacebook = async () => {
+    try {
+      await Facebook.initializeAsync('1293821754291306');
+      const {
+        type,
+        token,
+        expires,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ['public_profile'],
+      });
+      if (type === 'success') {
+        try {
+          const credentials = await firebase.auth.FacebookAuthProvider.credential(token)
+          await firebase.auth().signInWithCredential(credentials)
+
+        } catch (error) {
+          console.log('CREDIALS LOGIN ERROR', error)
+        }
+      }
+
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+
+    }
+  }
+  render() {
+    return <Container style={styles.container}>
+      <Form>
+        <Item floatingLabel>
+          <Label>Email</Label>
+          <Input
+            autoCorrect={false}
+            autoCapitalize="none"
+            onChangeText={email => this.setState({ email })}
+          />
+        </Item>
+        <Item floatingLabel>
+          <Label>Password</Label>
+          <Input
+            secureTextEntry={true}
+            autoCorrect={false}
+            autoCapitalize="none"
+            onChangeText={password => this.setState({ password })}
+          />
+        </Item>
+        <Button
+          full
+          rounded
+          success
+          style={{ marginTop: 10 }}
+          onPress={() => this.loginUser(this.state.email, this.state.password)}
+        >
+
+          <Text>LOGIN</Text>
+        </Button>
+        <Button
+          full
+          rounded
+          primary
+          style={{ marginTop: 10 }}
+          onPress={() => this.signupUser(this.state.email, this.state.password)}
+        >
+
+          <Text>SIGNUP</Text>
+        </Button>
+        <Button
+          full
+          rounded
+          primary
+          style={{ marginTop: 10 }}
+          onPress={() => this.loginWithFacebook()}
+        >
+
+          <Text>LOGIN WITH FACEBOOK</Text>
+        </Button>
+      </Form>
+    </Container>
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    padding: 10
+  },
+})
+
+export default App
