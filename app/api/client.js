@@ -1,9 +1,9 @@
-import {create} from "apisauce"
+import { create } from "apisauce"
 import cache from "../utility/cache"
 import authStorage from "../auth/storage"
 
 const apiClient = create({
-  baseURL: "http://192.168.43.137:9000/api",
+  baseURL: "https://easy-shop-backend.herokuapp.com/api",
 })
 
 apiClient.addAsyncRequestTransform(async (request) => {
@@ -22,6 +22,6 @@ apiClient.get = async (url, params, axiosConfig) => {
   }
 
   const data = await cache.get(url)
-  return data ? {ok: true, data} : res
+  return data ? { ok: true, data } : res
 }
 export default apiClient

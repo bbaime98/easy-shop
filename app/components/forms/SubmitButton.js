@@ -1,11 +1,10 @@
 import React from "react"
-import {StyleSheet} from "react-native"
+import { StyleSheet } from "react-native"
 import AppButton from "../AppButton"
-import {useFormikContext} from "formik"
+import { useFormikContext } from "formik"
 
-export default function SubmitButton({title}) {
-  console.log("Submit BUTOON___")
-  const {handleSubmit} = useFormikContext()
+export default function SubmitButton({ title }) {
+  const { handleSubmit } = useFormikContext()
   return <AppButton title={title} onPress={handleSubmit} />
 }
 
