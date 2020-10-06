@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from "react"
-import {StyleSheet, FlatList} from "react-native"
+import React, { useState, useEffect } from "react"
+import { StyleSheet, FlatList } from "react-native"
 import Screen from "../components/Screen"
 import Card from "../components/Card"
-import routes from "../navigation/routes"
+import { routes } from "../navigation/routes"
 import colors from "../config/colors"
 
 import listingApi from "../api/listings"
@@ -11,8 +11,8 @@ import Button from "../components/AppButton"
 import ActivityIndicator from "../components/ActivityIndicator"
 import useApi from "../components/hooks/useApi"
 
-export default function ListingsScreen({navigation}) {
-  const {data: listings, error, loading, request: loadListings} = useApi(
+export default function ListingsScreen({ navigation }) {
+  const { data: listings, error, loading, request: loadListings } = useApi(
     listingApi.getListings
   )
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function ListingsScreen({navigation}) {
         <FlatList
           data={listings}
           keyExtractor={(listing) => listing.id.toString()}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <Card
               title={item.title}
               subTitle={"$" + item.price}
